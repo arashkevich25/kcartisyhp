@@ -13,7 +13,7 @@ export function App() {
     <main>
       <h1>{TEXT.TITLE}</h1>
       <PatientSelect token={token} onChange={setToken} />
-      <NewSessionSection token={token} onSaved={reload} />
+      <NewSessionSection key={token} token={token} onSaved={reload} />
       <HistorySection sessions={sessions} error={error} />
     </main>
   );

@@ -65,6 +65,17 @@ describe("App", () => {
     expect(ids[0]).toBe(ids[1]);
   });
 
+  it("clears the counted file when the patient changes", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.upload(screen.getByLabelText(new RegExp(TEXT.SESSION_FILE_LABEL, "i")), fixtureFile("session-clean.json"));
+    await screen.findByTestId("reps");
+
+    await user.selectOptions(screen.getByLabelText(new RegExp(TEXT.PATIENT_LABEL, "i")), DEMO_USERS[1].name);
+    expect(screen.queryByTestId("reps")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: TEXT.SAVE_RESULT })).not.toBeInTheDocument();
+  });
+
   it("shows an error for a bad file", async () => {
     const user = userEvent.setup();
     render(<App />);

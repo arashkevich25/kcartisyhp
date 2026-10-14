@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { saveSession } from "../api";
 import { ApiError, ERRORS, type SaveStatus, type SessionDraft, TEXT } from "../common";
 
@@ -6,7 +6,6 @@ export function useSaveSession(token: string, draft: SessionDraft | null, onSave
   const [status, setStatus] = useState<SaveStatus | null>(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => setStatus(null), [token]);
   const resetStatus = useCallback(() => setStatus(null), []);
 
   async function save() {

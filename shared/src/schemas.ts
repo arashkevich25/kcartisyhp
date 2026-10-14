@@ -12,7 +12,10 @@ export const sessionInputSchema = z.object({
   sessionId: z.string().min(1).max(100),
   reps: z.number().int().nonnegative(),
   durationSec: z.number().finite().nonnegative(),
-  performedAt: z.string().datetime({ offset: true }),
+  performedAt: z
+    .string()
+    .datetime({ offset: true })
+    .transform((value) => new Date(value).toISOString()),
 });
 export type SessionInput = z.infer<typeof sessionInputSchema>;
 

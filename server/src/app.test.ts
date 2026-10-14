@@ -67,6 +67,18 @@ describe(`POST ${SESSIONS_PATH}`, () => {
     expect((await list(aliceHeaders)).json()[0].reps).toBe(session.reps);
   });
 
+  it("stores performedAt as UTC", async () => {
+    const response = await post(aliceHeaders, { ...session, performedAt: "2026-01-01T12:00:00+05:00" });
+    expect(response.json().performedAt).toBe("2026-01-01T07:00:00.000Z");
+  });
+
+  it("treats the same instant in another format as a retry", async () => {
+    await post(aliceHeaders, session);
+    const retry = await post(aliceHeaders, { ...session, performedAt: "2026-01-01T11:00:00+01:00" });
+    expect(retry.statusCode).toBe(HTTP_STATUS.OK);
+    expect(await sessionIds(aliceHeaders)).toHaveLength(1);
+  });
+
   it("validates the body", async () => {
     const invalidBodies = [
       {},
@@ -102,6 +114,13 @@ describe(`GET ${SESSIONS_PATH}`, () => {
     await post(aliceHeaders, session);
     await post(aliceHeaders, { ...session, sessionId: "session-2", performedAt: "2026-02-01T10:00:00.000Z" });
     expect(await sessionIds(aliceHeaders)).toEqual(["session-2", session.sessionId]);
+  });
+
+  it("orders by instant, not by the offset written", async () => {
+    await post(aliceHeaders, session);
+    // 12:00+05:00 is 07:00Z, earlier than session-1 at 10:00Z.
+    await post(aliceHeaders, { ...session, sessionId: "session-early", performedAt: "2026-01-01T12:00:00+05:00" });
+    expect(await sessionIds(aliceHeaders)).toEqual([session.sessionId, "session-early"]);
   });
 });
 
