@@ -1,0 +1,16 @@
+{
+  "name": "rep-counter",
+  "private": true,
+  "type": "module",
+  "workspaces": ["shared", "server"],
+  "scripts": {
+    "start": "concurrently -n server -c blue \"npm run dev -w server\"",
+    "test": "npm test --workspaces --if-present --workspace=shared --workspace=server",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
