@@ -9,9 +9,11 @@
     "test:e2e": "npm test -w e2e",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "build": "npm run build -w web",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
     "concurrently": "^9.0.0",
     "husky": "^9.1.7",
     "typescript": "^5.6.0",

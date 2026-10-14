@@ -6,6 +6,7 @@ Counts squats from a knee-angle signal in the browser, saves the result to a sma
 npm install
 npm start        # API on :3001, web on http://localhost:5173
 npm test         # unit/API tests: shared + server + web
+npm run test:coverage # same, with coverage reports in <package>/coverage
 npm run test:e2e # Playwright, full stack (first time: npx playwright install chromium)
 npm run typecheck
 ```

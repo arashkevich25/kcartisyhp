@@ -1,2 +1,4 @@
 import { defineConfig } from "vitest/config";
-export default defineConfig({ test: { environment: "node" } });
+import { coverage } from "../vitest.coverage";
+
+export default defineConfig({ test: { environment: "node", coverage } });

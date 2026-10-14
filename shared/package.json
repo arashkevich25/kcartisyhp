@@ -6,7 +6,8 @@
   "types": "src/index.ts",
   "scripts": {
     "test": "vitest run",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": { "zod": "^3.23.8" }
 }
