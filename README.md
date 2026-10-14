@@ -44,4 +44,4 @@ Node 22+. Pick a file from [`fixtures/`](fixtures) in the UI. Switch between Ali
 
 See [AGENTS.md](AGENTS.md) for the instructions given to the agent.
 
-**One thing it got wrong:** _TODO: what the agent got wrong and how you noticed._
+**One thing it got wrong:** the agent stored `performedAt` exactly as sent and sorted it as a string. It even wrote that assumption into this README ("assumes a consistent offset such as `Z`") instead of fixing it, and all tests passed. I noticed when I asked it to review the project against the brief and probe the API directly: a session at `12:00+05:00` (07:00 UTC) was listed above one at `10:00Z`. The same root cause made a retry at the same moment, written in a different format, fail with a `409`. The fix was to normalise to UTC in the shared schema, plus regression tests for both cases.
